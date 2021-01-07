@@ -25,7 +25,7 @@ class HelloControllerTest {
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().string(expected))
     }
-
+    
     @Test
     fun `get hello dto`() {
         val name = "hello"
