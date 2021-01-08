@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import java.time.LocalDateTime
 
 /**
  * @author black9p
@@ -34,5 +35,19 @@ class PostsRepositoryTest {
 
         assertThat(posts.title).isEqualTo(title)
         assertThat(posts.content).isEqualTo(content)
+    }
+
+    @Test
+    fun `create post`() {
+        val now = LocalDateTime.now().minusSeconds(1)
+        postsRepository.save(Posts("title", "content", "black9p"))
+
+        val postsList = postsRepository.findAll()
+        val post = postsList[0]
+
+        println(">>>>>>>>> createDate=${post.createdDate}, modifiedDate=${post.modifiedDate}")
+
+        assertThat(post.createdDate).isAfter(now)
+        assertThat(post.modifiedDate).isAfter(now)
     }
 }
