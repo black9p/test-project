@@ -1,6 +1,7 @@
 package me.black9p.testproject.web
 
 import me.black9p.testproject.service.PostsService
+import me.black9p.testproject.web.dto.PostsResponseDto
 import me.black9p.testproject.web.dto.PostsSaveRequestDto
 import me.black9p.testproject.web.dto.PostsUpdateRequestDto
 import org.springframework.web.bind.annotation.*
@@ -19,5 +20,10 @@ class PostsApiController (val postsService: PostsService){
     @PutMapping("/api/v1/posts/{id}")
     fun update(@PathVariable id: Long, @RequestBody requestDto: PostsUpdateRequestDto): Long {
         return postsService.updatePost(id, requestDto)
+    }
+
+    @GetMapping("/api/v1/posts/{id}")
+    fun getPost(@PathVariable id: Long) : PostsResponseDto {
+        return postsService.getPost(id)
     }
 }
