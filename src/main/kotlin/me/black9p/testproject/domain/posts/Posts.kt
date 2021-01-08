@@ -12,4 +12,9 @@ import javax.persistence.Id
 class Posts(var title: String, var content: String, var author: String) {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+
+    fun update(title: String, content: String) {
+        this.title = title
+        this.content = content
+    }
 }
