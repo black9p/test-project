@@ -1,6 +1,7 @@
 package me.black9p.testproject.service
 
 import me.black9p.testproject.domain.posts.PostsRepository
+import me.black9p.testproject.web.dto.PostsListResponseDto
 import me.black9p.testproject.web.dto.PostsResponseDto
 import me.black9p.testproject.web.dto.PostsSaveRequestDto
 import me.black9p.testproject.web.dto.PostsUpdateRequestDto
@@ -27,5 +28,10 @@ class PostsService (val postsRepository: PostsRepository){
         val post = postsRepository.findById(id).orElseThrow { IllegalArgumentException("해당 게시글이 없습니다. id= $id") }
 
         return PostsResponseDto(post.id!!, post.title, post.content, post.author)
+    }
+
+    @Transactional(readOnly = true)
+    fun getPostsFromRecent(): List<PostsListResponseDto> {
+        return postsRepository.findAllDesc().map { posts -> PostsListResponseDto(posts) }
     }
 }
