@@ -34,4 +34,11 @@ class PostsService (val postsRepository: PostsRepository){
     fun getPostsFromRecent(): List<PostsListResponseDto> {
         return postsRepository.findAllDesc().map { posts -> PostsListResponseDto(posts) }
     }
+
+    @Transactional
+    fun deletePost(id: Long) {
+        val post = postsRepository.findById(id).orElseThrow { IllegalArgumentException("해당 게시글이 없습니다. id= $id") }
+
+        postsRepository.delete(post)
+    }
 }

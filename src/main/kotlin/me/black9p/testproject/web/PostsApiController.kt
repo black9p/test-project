@@ -26,4 +26,10 @@ class PostsApiController (val postsService: PostsService){
     fun getPost(@PathVariable id: Long) : PostsResponseDto {
         return postsService.getPost(id)
     }
+
+    @DeleteMapping("/api/v1/posts/{id}")
+    fun deletePost(@PathVariable id: Long): Long {
+        postsService.deletePost(id)
+        return id
+    }
 }
