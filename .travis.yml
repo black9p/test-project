@@ -12,10 +12,26 @@ cache:
     - '$HOME/.m2/repository'
     - '$HOME/.gradle'
 
-script: './gradlew clean build --exclude-task test'
-
 before_install:
   - chmod +x gradlew
+
+script: './gradlew clean build --exclude-task test'
+
+before_deploy:
+  - zip -r test-project *
+  - mkdir -p deploy
+  - mv test-project.zip deploy/test-project.zip
+
+deploy:
+  - provider: s3
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  bucket: test-springboot-build
+  region: ap-northeast-2
+  skip_cleanup: true
+  acl: private
+  local_dir: deploy
+  wait-until-deployed: true
 
 # CI 실행 완료 시 메일로 알람
 notifications:
